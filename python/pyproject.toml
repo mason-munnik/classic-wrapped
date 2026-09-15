@@ -1,0 +1,18 @@
+[project]
+name = "classic-wrapped-python"
+version = "0.0.0"
+description = "Ingest, classical detection, MusicBrainz matching, aggregation. Never touches an OAuth token."
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "httpx>=0.28",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "pytest-asyncio>=0.24"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

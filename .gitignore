@@ -1,0 +1,36 @@
+# --- Secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Personal listening data ---
+# CLAUDE.md: streaming history stays local, stays gitignored, is never logged
+# or committed.
+data/
+*.zip
+Streaming_History_*.json
+my_spotify_data*/
+
+# --- MusicBrainz response cache ---
+# Never re-query on a re-run -- but the cache is derived, not source.
+cache/
+
+# --- Node ---
+node_modules/
+dist/
+*.log
+npm-debug.log*
+
+# --- Python ---
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# --- macOS / editors ---
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
