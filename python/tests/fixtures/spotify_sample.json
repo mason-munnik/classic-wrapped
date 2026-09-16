@@ -61,5 +61,30 @@
     "offline": false,
     "offline_timestamp": 0,
     "incognito_mode": false
-  }
+  },
+  {
+  "ts": "2026-09-15T22:14:03Z",
+  "platform": "iOS 17.5 (iPhone14,3)",
+  "ms_played": 1147000,
+  "conn_country": "US",
+  "ip_addr": "xx.xx.xx.xx",
+  "master_metadata_track_name": "Symphony No. 5 in C-Sharp Minor: IV. Adagietto. Sehr langsam",
+  "master_metadata_album_artist_name": "London Philharmonic Orchestra",
+  "master_metadata_album_album_name": "Mahler: Symphony No. 5",
+  "spotify_track_uri": "spotify:track:XXXXXXXXXXXXXXXXXXXXXX",
+  "episode_name": null,
+  "episode_show_name": null,
+  "spotify_episode_uri": null,
+  "audiobook_title": null,
+  "audiobook_uri": null,
+  "audiobook_chapter_uri": null,
+  "audiobook_chapter_title": null,
+  "reason_start": "trackdone",
+  "reason_end": "trackdone",
+  "shuffle": false,
+  "skipped": false,
+  "offline": false,
+  "offline_timestamp": null,
+  "incognito_mode": false
+}
 ]
