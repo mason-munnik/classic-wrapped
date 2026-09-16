@@ -52,12 +52,11 @@ def parse_entry(entry):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python ingest.py <path-to-json>")
+        print("Usage: python ingest.py tests/fixtures/spotify_sample.json")
         sys.exit(1)
 
     records = load_json_file(sys.argv[1])
     if records is None:
         sys.exit(1)
-
     for r in records:
         print(parse_entry(r))

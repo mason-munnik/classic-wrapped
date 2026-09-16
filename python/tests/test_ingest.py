@@ -23,9 +23,10 @@ def test_load_json_file_invalid_json_returns_none(capsys, tmp_path):
 def test_load_json_file_valid_file_loads_correctly():
     result = load_json_file(str(FIXTURE_PATH))
     assert isinstance(result, list)
-    assert len(result) == 3
+    assert len(result) == 4
     assert result[0]["master_metadata_track_name"] == "Test Track One"
     assert result[2]["master_metadata_track_name"] is None
+    assert result[3]["master_metadata_album_artist_name"] == "London Philharmonic Orchestra"
 
 
 def test_load_json_file_generic_exception_returns_none(capsys, tmp_path, monkeypatch):
@@ -141,6 +142,8 @@ def test_parse_entry_podcast_shaped_entry_not_filtered():
 def test_parse_entries_from_fixture_file_all_parse_without_filtering():
     records = load_json_file(str(FIXTURE_PATH))
     plays = [parse_entry(r) for r in records]
-    assert len(plays) == 3
+    assert len(plays) == 4
     assert all(isinstance(p, Play) for p in plays)
     assert plays[2].track is None and plays[2].artist is None
+    assert plays[3].artist == "London Philharmonic Orchestra"
+    assert plays[3].album == "Mahler: Symphony No. 5"
