@@ -29,7 +29,9 @@ def load_json_file(file_path):
         print(f"Error: '{file_path}' is not valid JSON")
         return None
 
-    except Exception as e:
+    except Exception as e:  # pylint: disable=broad-exception-caught
+        # Intentional catch-all: any unexpected I/O error here should be
+        # reported to the user, not crash the CLI.
         print(f"An unexpected error occurred: {e}")
         return None
 
