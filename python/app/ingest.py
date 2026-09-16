@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -33,6 +34,8 @@ def load_json_file(file_path):
         return None
 
 def parse_timestamp(raw):
+    if raw is None:
+        return None
     return datetime.fromisoformat(raw)
 
 def parse_entry(entry):
@@ -46,6 +49,13 @@ def parse_entry(entry):
     )
 
 if __name__ == "__main__":
-    records = load_json_file("/Users/masonmunnik/Desktop/projects/practice.json")
+    if len(sys.argv) < 2:
+        print("Usage: python ingest.py <path-to-json>")
+        sys.exit(1)
+
+    records = load_json_file(sys.argv[1])
+    if records is None:
+        sys.exit(1)
+
     for r in records:
         print(parse_entry(r))
