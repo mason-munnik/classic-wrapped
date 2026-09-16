@@ -1,8 +1,5 @@
-import json
 from datetime import datetime, timezone
 from pathlib import Path
-
-import pytest
 
 from app.ingest import Play, load_json_file, parse_entry, parse_timestamp
 
