@@ -32,7 +32,7 @@ func LoadJSONFile(filePath string) ([]map[string]any, error) {
 		return nil, err
 	}
 
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 
 	var records []map[string]any
 	if err := json.NewDecoder(file).Decode(&records); err != nil {
