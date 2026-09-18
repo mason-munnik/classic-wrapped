@@ -20,8 +20,7 @@ import (
 )
 
 var splitPattern = regexp.MustCompile(
-	`(?i)\s*(?:[;,/&]|\bfeat\.?\b|\bft\.?\b|\band\b|\
-     bwith\b|\bvs\.?\b)\s*`,
+	`(?i)\s*(?:[;,/&]|\bfeat\.?|\bft\.?|\band\b|\bwith\b|\bvs\.?)\s*`,
 )
 
 type ClassicalMatch struct {
@@ -139,17 +138,27 @@ func loadComposers() []Composer {
 		return nil
 	}
 
-	path := filepath.Join(filepath.Dir(file), "data", "composers.json")
-	raw, err := os.ReadFile(path)
-	if err != nil {
-		return nil
-	}
-	var composers []Composer
-	if err := json.Unmarshal(raw, &composers); err != nil {
-		return nil
+	candidates := []string{
+		filepath.Join(filepath.Dir(file), "data", "composers.json"),
+		filepath.Join(filepath.Dir(file), "..", "..", "..", "python", "app", "data", "composers.json"),
+		filepath.Join(filepath.Dir(file), "..", "..", "..", "..", "python", "app", "data", "composers.json"),
+		filepath.Join(".", "python", "app", "data", "composers.json"),
+		filepath.Join("..", "python", "app", "data", "composers.json"),
 	}
 
-	return composers
+	for _, path := range candidates {
+		raw, err := os.ReadFile(path)
+		if err != nil {
+			continue
+		}
+		var composers []Composer
+		if err := json.Unmarshal(raw, &composers); err != nil {
+			continue
+		}
+		return composers
+	}
+
+	return nil
 }
 
 func Classify(play ingest.Play) ClassicalMatch {
