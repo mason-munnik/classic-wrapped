@@ -138,27 +138,16 @@ func loadComposers() []Composer {
 		return nil
 	}
 
-	candidates := []string{
-		filepath.Join(filepath.Dir(file), "data", "composers.json"),
-		filepath.Join(filepath.Dir(file), "..", "..", "..", "python", "app", "data", "composers.json"),
-		filepath.Join(filepath.Dir(file), "..", "..", "..", "..", "python", "app", "data", "composers.json"),
-		filepath.Join(".", "python", "app", "data", "composers.json"),
-		filepath.Join("..", "python", "app", "data", "composers.json"),
+	path := filepath.Join(filepath.Dir(file), "data", "composers.json")
+	raw, err := os.ReadFile(path)
+	if err != nil {
+		return nil
 	}
-
-	for _, path := range candidates {
-		raw, err := os.ReadFile(path)
-		if err != nil {
-			continue
-		}
-		var composers []Composer
-		if err := json.Unmarshal(raw, &composers); err != nil {
-			continue
-		}
-		return composers
+	var composers []Composer
+	if err := json.Unmarshal(raw, &composers); err != nil {
+		return nil
 	}
-
-	return nil
+	return composers
 }
 
 func Classify(play ingest.Play) ClassicalMatch {
