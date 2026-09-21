@@ -66,20 +66,28 @@ func (c *Client) Search(ctx context.Context, query string) (*RecordingSearchResp
 	q.Set("limit", "5")
 	u.RawQuery = q.Encode()
 
-	// Build the request with contextß
+	// Build the request with context
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 	req.Header.Set("User-Agent", c.UserAgent)
-	req.Header.Set("Accept", "application.json")
+	req.Header.Set("Accept", "application/json")
 
-	//Send request and check status
+	// Send request and check status
 	resp, err := c.HTTPClient.Do(req)
-	defer resp.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+	defer func() { _ = resp.Body.Close() }()
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("musicbrainz: unexpected status: %d", resp.StatusCode)
 	}
 
 	var out RecordingSearchResponse
-	json.NewDecoder(resp.Body).Decode(&out)
+	if err := json.NewDecoder(resp.Body).Decode(&out); err != nil {
+		return nil, err
+	}
 
 	return &out, nil
 }
