@@ -11,10 +11,11 @@ data/
 Streaming_History_*.json
 my_spotify_data*/
 
-# python/app/data holds bundled package reference data (e.g. composers.json),
-# not personal listening data -- exempt it from the data/ rule above.
-!python/app/data/
-!python/app/data/**
+# go/internal/classical/data holds bundled package reference data
+# (e.g. composers.json), not personal listening data -- exempt it from the
+# data/ rule above.
+!go/internal/classical/data/
+!go/internal/classical/data/**
 
 # --- MusicBrainz response cache ---
 # Never re-query on a re-run -- but the cache is derived, not source.
