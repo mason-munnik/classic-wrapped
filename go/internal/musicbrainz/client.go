@@ -5,7 +5,10 @@ package musicbrainz
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"net/http"
+	"net/url"
 	"time"
 )
 
@@ -49,6 +52,34 @@ func NewClient() *Client {
 	}
 }
 
-func (c *Client) Search(context context.Context, query string) (*RecordingSearchResponse, error) {
+func (c *Client) Search(ctx context.Context, query string) (*RecordingSearchResponse, error) {
+	// Build the URL
+	u, err := url.Parse(c.BaseURL + "/recording")
+	if err != nil {
+		return nil, err
+	}
 
+	// Build the query
+	q := u.Query()
+	q.Set("query", query)
+	q.Set("fmt", "json")
+	q.Set("limit", "5")
+	u.RawQuery = q.Encode()
+
+	// Build the request with contextß
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, u.String(), nil)
+	req.Header.Set("User-Agent", c.UserAgent)
+	req.Header.Set("Accept", "application.json")
+
+	//Send request and check status
+	resp, err := c.HTTPClient.Do(req)
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("musicbrainz: unexpected status: %d", resp.StatusCode)
+	}
+
+	var out RecordingSearchResponse
+	json.NewDecoder(resp.Body).Decode(&out)
+
+	return &out, nil
 }
